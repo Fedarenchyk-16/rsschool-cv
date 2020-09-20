@@ -19,5 +19,26 @@
     float: right;
     padding: 30px 125px 0 0;
 }
+.section {
+    padding: 10px 0 0 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.section h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.listElement{
+    padding: 20px 0 0 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+.text{
+    font-size: 20px;
+    padding: 10px 0px 0px 20px;
+    line-height: 170%;
+    font-weight: normal;
+}
 
 
