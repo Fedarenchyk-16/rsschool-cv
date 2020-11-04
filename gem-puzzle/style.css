@@ -1,0 +1,128 @@
+body {
+    display: block;
+    background-color: white;;
+    align-items: center;
+    align-content: center;
+    alignment: center;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: #d9eaf3;
+}
+
+.person{
+    margin-left: -60px;
+}
+
+table{
+    margin: auto;
+    background-color: aquamarine;
+}
+
+.timer{
+    font-size: 35px;
+    margin-bottom: 50px;
+}
+
+.list{
+    list-style-type: none;
+}
+
+.navbar{
+    display: block;
+}
+
+.unVisible{
+    display: none;
+}
+
+.menuBt{
+    font-weight: 700;
+    width: 150px;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
+
+    margin-bottom: 40px;
+}
+
+.menuBt:hover {
+    background: rgb(53, 167, 110);
+}
+
+.menuBt:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+}
+#reset {
+    width: 120px;
+    height: 40px;
+    border:solid 3px deepskyblue;
+    background-color: aquamarine;
+    color: black;
+    margin-top: 25px;
+    border-radius: 15%;
+}
+
+.leaderContainer{
+    width: 280px;
+    height: 500px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    padding: 1rem 2rem 1rem 5rem;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#d9eaf3), color-stop(4%, #fff)) 0 4px;
+    background-size: 100% 3rem;
+    position: relative;
+    line-height: 3rem;
+}
+
+.toMenu{
+    width: 120px;
+    height: 40px;
+    border:solid 3px deepskyblue;
+    background-color: aquamarine;
+    color: black;
+    margin-top: 25px;
+    border-radius: 15%;
+}
+
+td {
+    text-align:center;
+    font-family:Times New Roman;
+    color: black;
+    background-color: cornsilk;
+    vertical-align: middle;
+}
+#box td {
+    border:solid 3px yellowgreen;
+    text-align:center;
+    font-size:40px;
+    font-family:Times New Roman;
+    color: black;
+    width: 55px;
+    height: 55px;
+}
+
+.wrong{
+    background-color: red;
+}
+
+.steps{
+    margin-bottom: 50px;
+    font-size: 35px;
+}
+
+#box td:hover {
+    color: black;
+    cursor: hand;
+}
+
