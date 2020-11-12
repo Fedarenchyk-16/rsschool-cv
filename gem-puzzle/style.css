@@ -57,6 +57,11 @@ table{
     background: rgb(53, 167, 110);
 }
 
+.leaderTitle{
+    margin-left: -55px;
+    font-size: 40px;
+}
+
 .menuBt:active {
     background: rgb(33,147,90);
     box-shadow: 0 3px rgb(33,147,90) inset;
@@ -73,7 +78,7 @@ table{
 
 .leaderContainer{
     width: 280px;
-    height: 500px;
+    height: 770px;
     margin: 50px auto;
     background: white;
     border-radius: 5px;
