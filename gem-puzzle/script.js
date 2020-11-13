@@ -25,6 +25,12 @@ function menu() {
         localStorage.setItem('player' + i + 'Time', 'empty');
     }
 
+    var message = document.createElement("div");
+    message.id = 'message';
+    message.classList.add('message');
+    document.body.appendChild(message);
+    message.innerHTML = "";
+
     var menu = document.createElement("div");
     menu.id = 'menu';
     menu.classList.add('menu');
@@ -35,7 +41,7 @@ function menu() {
     var gameFieldSize = document.createElement("div");
     gameFieldSize.id = 'fieldSize';
     gameFieldSize.classList.add('fieldSize');
-    document.body.appendChild(gameFieldSize);
+    menu.appendChild(gameFieldSize);
     gameFieldSize.innerHTML = "<select class='fieldSizeSelect' id='fieldSizeSelect'> \n" +
                                 "<option value=\"3\">3х3</option> \n" +
                               "<option value=\"4\" selected>4х4</option>\n" +
@@ -57,28 +63,32 @@ function menu() {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 //gameFieldSize.classList.add('unVisible');
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 firstTimeStart = false;
             } else {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('container').remove('unVisible');
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 startNewGame();
             }
         }
         if (ev.target === document.getElementById('contGameBt')) {
             var select = document.getElementById("fieldSizeSelect");
             size = select.value;
-            alert(size);
+            //alert(size);
 
             if (firstTimeStart) {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 continueGame();
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 firstTimeStart = false;
             } else {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('container').remove('unVisible');
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 continueGame();
             }
         }
@@ -86,12 +96,14 @@ function menu() {
             if (firstTimeLeaders) {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 showLeaders();
                 firstTimeLeaders = false;
             } else {
                 document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('leaderContainer').remove('unVisible');
                 menu.classList.add('unVisible');
+                message.innerHTML = "";
                 showLeaders();
             }
         }
@@ -132,6 +144,8 @@ function showLeaders() {
         clearInterval(timing);
         document.getElementById('leaderContainer').classList.add('unVisible');
         document.getElementById('menu').classList.remove('unVisible');
+        document.getElementById('fieldSizeSelect').style.visibility = 'visible';
+        document.getElementById('message').innerHTML = '<p>Your last game was SAVED.<br>You can continue it by clicking<br> on a button "Continue"</p>'
     }
 
 
@@ -175,12 +189,23 @@ function continueGame() {
     toMenuButt.innerHTML = 'to Menu';
     container.appendChild(toMenuButt);
 
+    var muteButt = document.createElement("button");
+    muteButt.id = 'mute';
+    muteButt.classList.add('mute');
+    muteButt.innerHTML = 'MUTE';
+    container.appendChild(muteButt);
+    if (turnAudioOn === false){
+        document.getElementById('mute').classList.add('pushed');
+    }else{
+        document.getElementById('mute').classList.remove('pushed');
+    }
+
     document.getElementById("toMenu").onclick = function () {
         clearInterval(timing);
 
-        for (i = 0; i < 4; ++i) {
+        for (i = 0; i < size; ++i) {
             savedArr[i] = []
-            for (j = 0; j < 4; ++j) {
+            for (j = 0; j < size; ++j) {
                 savedArr[i][j] = document.getElementById(i + " " + j).innerText;
             }
         }
@@ -192,17 +217,24 @@ function continueGame() {
 
         document.getElementById('container').classList.add('unVisible');
         document.getElementById('menu').classList.remove('unVisible');
+        document.getElementById('fieldSizeSelect').style.visibility = 'visible';
+        document.getElementById('message').innerHTML = '<p>Your last game was SAVED.<br>You can continue it by clicking<br> on a button "Continue"</p>'
+    }
 
+    document.getElementById("mute").onclick = function () {
+        if (turnAudioOn === true){
+            turnAudioOn = false;
+            document.getElementById('mute').classList.add('pushed');
+        }else{
+            turnAudioOn = true;
+            document.getElementById('mute').classList.remove('pushed');
+        }
     }
 
     document.getElementById("reset").onclick = function () {
         clearInterval(timing);
         newGame();
     }
-}
-
-function parseStringToArr(){
-
 }
 
 function continuefirstClick(){
@@ -232,7 +264,7 @@ function continuefirstClick(){
             ei = a;
             ej = b;
         }
-        if (b === 3) {
+        if (b === size-1) {
             b = 0;
             a++;
             arr[a] = [];
@@ -246,9 +278,9 @@ function continuefirstClick(){
         tbody = document.createElement("tbody");
     table.id = 'table';
     table.appendChild(tbody);
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < size; ++i) {
         var row = document.createElement("tr");
-        for (j = 0; j < 4; ++j) {
+        for (j = 0; j < size; ++j) {
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
@@ -331,7 +363,9 @@ function startNewGame() {
 
         document.getElementById('container').classList.add('unVisible');
         document.getElementById('menu').classList.remove('unVisible');
+        document.getElementById('fieldSizeSelect').style.visibility = 'visible';
 
+        document.getElementById('message').innerHTML = '<p>Your last game was SAVED.<br>You can continue it by clicking<br> on a button "Continue"</p>'
     }
 
     document.getElementById("reset").onclick = function () {

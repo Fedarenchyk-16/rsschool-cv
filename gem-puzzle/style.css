@@ -80,7 +80,13 @@ table{
 }
 
 .fieldSize{
+    width: 230px;
     display: flex;
+    align-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+    padding-left: 40px;
 }
 
 .fieldSize select{
@@ -89,7 +95,6 @@ table{
     height: 34px;
     border: 0;
     font-size: 16px;
-    padding-left: 60px;
     line-height: 1;
     width: 150px;
 }
@@ -132,6 +137,10 @@ table{
     text-decoration: none;
     margin-top: 25px;
     margin-right: 10px;
+}
+
+.message p{
+    margin-left: 40px;
 }
 
 .pushed{
