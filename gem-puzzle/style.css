@@ -69,11 +69,14 @@ table{
 #reset {
     width: 120px;
     height: 40px;
-    border:solid 3px deepskyblue;
-    background-color: aquamarine;
-    color: black;
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
     margin-top: 25px;
-    border-radius: 15%;
+    margin-right: 10px;
 }
 
 .fieldSize{
@@ -108,11 +111,32 @@ table{
 .toMenu{
     width: 120px;
     height: 40px;
-    border:solid 3px deepskyblue;
-    background-color: aquamarine;
-    color: black;
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
     margin-top: 25px;
-    border-radius: 15%;
+    margin-right: 10px;
+}
+
+.mute{
+    width: 120px;
+    height: 40px;
+    border-radius: 3px;
+    background: rgb(255,0,0);
+    box-shadow: 0 -3px rgb(180,0,0) inset;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    margin-top: 25px;
+    margin-right: 10px;
+}
+
+.pushed{
+    background: rgb(0,255,0);
+    box-shadow: 0 -3px rgb(0,180,0) inset;
 }
 
 td {

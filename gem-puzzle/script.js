@@ -7,6 +7,7 @@ let stepsCounter = 0;
 let firstTimeStart = true;
 let firstTimeLeaders = true;
 let firstOnClick = true;
+let turnAudioOn = true;
 
 function swap(arr, i1, j1, i2, j2) {
     t = arr[i1][j1];
@@ -50,7 +51,6 @@ function menu() {
         if (ev.target === document.getElementById('newGameBt')) {
             var select = document.getElementById("fieldSizeSelect");
             size = select.value;
-            alert(size);
 
             if (firstTimeStart) {
                 startNewGame();
@@ -303,6 +303,17 @@ function startNewGame() {
     toMenuButt.innerHTML = 'to Menu';
     container.appendChild(toMenuButt);
 
+    var muteButt = document.createElement("button");
+    muteButt.id = 'mute';
+    muteButt.classList.add('mute');
+    muteButt.innerHTML = 'MUTE';
+    container.appendChild(muteButt);
+    if (turnAudioOn === false){
+        document.getElementById('mute').classList.add('pushed');
+    }else{
+        document.getElementById('mute').classList.remove('pushed');
+    }
+
     document.getElementById("toMenu").onclick = function () {
         clearInterval(timing);
 
@@ -327,6 +338,16 @@ function startNewGame() {
         clearInterval(timing);
         newGame();
     }
+
+    document.getElementById("mute").onclick = function () {
+        if (turnAudioOn === true){
+            turnAudioOn = false;
+            document.getElementById('mute').classList.add('pushed');
+        }else{
+            turnAudioOn = true;
+            document.getElementById('mute').classList.remove('pushed');
+        }
+    }
 }
 
 function cellClick(event) {
@@ -335,6 +356,11 @@ function cellClick(event) {
         i = el.id.charAt(0),
         j = el.id.charAt(2);
     if ((i == ei && Math.abs(j - ej) == 1) || (j == ej && Math.abs(i - ei) == 1)) {
+        if (turnAudioOn === true) {
+            var audStandart = new Audio();
+            audStandart.src = 'assets/25d7ee378d6addc (online-audio-converter.com).wav';
+            audStandart.play();
+        }
         //инкрементируем кол-во ходов
         stepsCounter++;
         document.getElementById(ei + " " + ej).innerHTML = el.innerHTML;

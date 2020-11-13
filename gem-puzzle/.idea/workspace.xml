@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a15629f-f2ff-4c3b-8c8a-0795cfe90bc8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/25d7ee378d6addc (online-audio-converter.com).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/25d7ee378d6addc.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
@@ -43,6 +45,11 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,6 +64,7 @@
       <workItem from="1604494414601" duration="1318000" />
       <workItem from="1605188471328" duration="7072000" />
       <workItem from="1605202723290" duration="5363000" />
+      <workItem from="1605290272557" duration="1893000" />
     </task>
     <servers />
   </component>
