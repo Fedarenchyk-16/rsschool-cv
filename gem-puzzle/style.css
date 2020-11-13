@@ -76,6 +76,21 @@ table{
     border-radius: 15%;
 }
 
+.fieldSize{
+    display: flex;
+}
+
+.fieldSize select{
+    margin-left: 40px;
+    border-radius: 0;
+    height: 34px;
+    border: 0;
+    font-size: 16px;
+    padding-left: 60px;
+    line-height: 1;
+    width: 150px;
+}
+
 .leaderContainer{
     width: 280px;
     height: 770px;

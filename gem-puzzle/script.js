@@ -1,6 +1,8 @@
 var arr = [], box, ei, ej;
 var savedArr = [];
 
+var size = 4;
+
 let stepsCounter = 0;
 let firstTimeStart = true;
 let firstTimeLeaders = true;
@@ -28,25 +30,53 @@ function menu() {
     document.body.appendChild(menu);
     menu.innerHTML = "<nav class='navbar' id='navbar'><ul class='list'><li><button type='button' class='menuBt' id='newGameBt'>New game</button></li><li><button type='button' class='menuBt' id='contGameBt'>Continue game</button></li><li><button type='button' class='menuBt' id='leadersBt'>Leaders</button></li></ul></nav>";
 
+
+    var gameFieldSize = document.createElement("div");
+    gameFieldSize.id = 'fieldSize';
+    gameFieldSize.classList.add('fieldSize');
+    document.body.appendChild(gameFieldSize);
+    gameFieldSize.innerHTML = "<select class='fieldSizeSelect' id='fieldSizeSelect'> \n" +
+                                "<option value=\"3\">3х3</option> \n" +
+                              "<option value=\"4\" selected>4х4</option>\n" +
+                              "<option value=\"5\">5х5</option>"+
+                              "<option value=\"6\">6х6</option> \n" +
+                              "<option value=\"7\">7х7</option> \n" +
+                              "<option value=\"8\">8х8</option> \n" +
+                                 "</select>";
+
     document.addEventListener('click', ev => {
         console.log(ev.target);
+
         if (ev.target === document.getElementById('newGameBt')) {
+            var select = document.getElementById("fieldSizeSelect");
+            size = select.value;
+            alert(size);
+
             if (firstTimeStart) {
                 startNewGame();
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
+                //gameFieldSize.classList.add('unVisible');
                 menu.classList.add('unVisible');
                 firstTimeStart = false;
             } else {
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('container').remove('unVisible');
                 menu.classList.add('unVisible');
                 startNewGame();
             }
         }
         if (ev.target === document.getElementById('contGameBt')) {
+            var select = document.getElementById("fieldSizeSelect");
+            size = select.value;
+            alert(size);
+
             if (firstTimeStart) {
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 continueGame();
                 menu.classList.add('unVisible');
                 firstTimeStart = false;
             } else {
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('container').remove('unVisible');
                 menu.classList.add('unVisible');
                 continueGame();
@@ -54,10 +84,12 @@ function menu() {
         }
         if (ev.target === document.getElementById('leadersBt')) {
             if (firstTimeLeaders) {
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 menu.classList.add('unVisible');
                 showLeaders();
                 firstTimeLeaders = false;
             } else {
+                document.getElementById('fieldSizeSelect').style.visibility = 'hidden';
                 document.getElementById('leaderContainer').remove('unVisible');
                 menu.classList.add('unVisible');
                 showLeaders();
@@ -80,11 +112,12 @@ function showLeaders() {
     leaderContainer.appendChild(leaderTitle);
 
     for (let i = 1; i < 11; i++) {
-        var personItem = localStorage.getItem('player' + i);
+        var personTime = localStorage.getItem('player' + i +'Time');
+        var personSteps = localStorage.getItem('player' + i + 'Steps');
 
         var person = document.createElement("p");
         person.id = 'player' + i;
-        person.innerHTML = `Player${i}  ------  Steps: ${personItem}  -----  Time: Time`;
+        person.innerHTML = `Player${i}  --- Steps: ${personSteps}  -----  Time: ${personTime}`;
         person.classList.add('person');
         leaderContainer.appendChild(person);
     }
@@ -273,9 +306,9 @@ function startNewGame() {
     document.getElementById("toMenu").onclick = function () {
         clearInterval(timing);
 
-        for (i = 0; i < 4; ++i) {
+        for (i = 0; i < size; ++i) {
             savedArr[i] = []
-            for (j = 0; j < 4; ++j) {
+            for (j = 0; j < size; ++j) {
                 savedArr[i][j] = document.getElementById(i + " " + j).innerText;
             }
         }
@@ -310,22 +343,30 @@ function cellClick(event) {
         ei = i;
         ej = j;
         var q = true;
-        for (i = 0; i < 4; ++i)
-            for (j = 0; j < 4; ++j)
-                if (i + j != 6 && document.getElementById(i + " " + j).innerHTML != i * 4 + j + 1) {
+        for (i = 0; i < size; ++i)
+            for (j = 0; j < size; ++j)
+                if (i + j != (size-1)*2 && document.getElementById(i + " " + j).innerHTML != i * size + j + 1) {
                     q = false;
                     break;
                 }
         if (q) {
+            let wrote = false;
+            let iterator = 0;
             for (let k = 1; k < 11; k++) {
-                let dataSteps = localStorage.getItem('player' + i + 'Steps');
-                let dataTime = localStorage.getItem('player' + i + 'Time');
-                if (dataSteps === 'empty' && dataTime === 'empty') {
-                    localStorage.setItem('player' + i + 'Steps', `${stepsCounter}`);
-                    localStorage.setItem('player' + i + 'Time', `${minutes}.${seconds}`);
+                if (!wrote) {
+                    let dataSteps = localStorage.getItem('player' + k + 'Steps');
+                    let dataTime = localStorage.getItem('player' + k + 'Time');
+                    if (dataSteps === 'empty' && dataTime === 'empty') {
+                        localStorage.setItem('player' + k + 'Steps', `${stepsCounter}`);
+                        localStorage.setItem('player' + k + 'Time', `${minutes}.${seconds}`);
+                        iterator = k;
+                        wrote = true;
+                    }
                 }
             }
-            alert(`Victory! You solve puzzle in ${stepsCounter} moves and ${minutes}.${seconds} \n Your result was saved to LEADERBOARD as Player${num}`);
+            alert(`Victory! You solve puzzle in ${stepsCounter} moves and ${minutes}.${seconds} \n Your result was saved to LEADERBOARD as Player${iterator}`);
+            clearInterval(timing);
+            timing = null;
         }
     } else {
         //некуда двигать
@@ -371,27 +412,27 @@ function newGame() {
 
     document.getElementById('steps').innerHTML = 'Steps: ' + stepsCounter;
 
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < size; ++i) {
         arr[i] = []
-        for (j = 0; j < 4; ++j) {
-            if (i + j != 6)
-                arr[i][j] = i * 4 + j + 1;
+        for (j = 0; j < size; ++j) {
+            if (i + j != (size-1)*2)
+                arr[i][j] = i * size + j + 1;
             else
                 arr[i][j] = "";
         }
     }
-    ei = 3;
-    ej = 3;
+    ei = size-1;
+    ej = size-1;
     for (i = 0; i < 1600; ++i)
-        switch (Math.round(3 * Math.random())) {
+        switch (Math.round(size * Math.random())) {
             case 0:
                 if (ei != 0) swap(arr, ei, ej, --ei, ej);
                 break; // up
             case 1:
-                if (ej != 3) swap(arr, ei, ej, ei, ++ej);
+                if (ej != size-1) swap(arr, ei, ej, ei, ++ej);
                 break; // right
             case 2:
-                if (ei != 3) swap(arr, ei, ej, ++ei, ej);
+                if (ei != size-1) swap(arr, ei, ej, ++ei, ej);
                 break; // down
             case 3:
                 if (ej != 0) swap(arr, ei, ej, ei, --ej); // left
@@ -400,9 +441,9 @@ function newGame() {
         tbody = document.createElement("tbody");
     table.id = 'table';
     table.appendChild(tbody);
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < size; ++i) {
         var row = document.createElement("tr");
-        for (j = 0; j < 4; ++j) {
+        for (j = 0; j < size; ++j) {
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
