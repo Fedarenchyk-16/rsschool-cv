@@ -2,6 +2,7 @@ var arr = [], box, ei, ej;
 var savedArr = [];
 
 var size = 4;
+var presize = 4;
 
 let stepsCounter = 0;
 let firstTimeStart = true;
@@ -206,9 +207,10 @@ function continueGame() {
         for (i = 0; i < size; ++i) {
             savedArr[i] = []
             for (j = 0; j < size; ++j) {
-                savedArr[i][j] = document.getElementById(i + " " + j).innerText;
+                savedArr[i][j] = document.getElementById(i + " " + j).style.backgroundImage;
             }
         }
+        presize = size;
         console.log(savedArr);
         localStorage.setItem('savedGameArr', savedArr);
         localStorage.setItem('savedGameTimeMin', minutes);
@@ -253,8 +255,6 @@ function continuefirstClick(){
     let a = 0;
     let b = 0;
     arr[a] = [];
-    let firstnumTarg = 0;
-    let secondnumTarg = 0;
     for (let i = 0; i < savedArr.length; i++) {
         console.log(savedArr[i]);
         arr[a][b] = savedArr[i];
@@ -264,7 +264,7 @@ function continuefirstClick(){
             ei = a;
             ej = b;
         }
-        if (b === size-1) {
+        if (b === presize-1) {
             b = 0;
             a++;
             arr[a] = [];
@@ -274,21 +274,23 @@ function continuefirstClick(){
 
     }
 
+    size = presize;
     var table = document.createElement("table"),
         tbody = document.createElement("tbody");
     table.id = 'table';
     table.appendChild(tbody);
-    for (i = 0; i < size; ++i) {
+    for (i = 0; i < presize; ++i) {
         var row = document.createElement("tr");
-        for (j = 0; j < size; ++j) {
+        for (j = 0; j < presize; ++j) {
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
-            cell.innerHTML = arr[i][j];
+            cell.style.backgroundImage = arr[i][j];
             row.appendChild(cell);
         }
         tbody.appendChild(row);
     }
+
     if (box.childNodes.length == 1)
         box.removeChild(box.firstChild);
     box.appendChild(table);
@@ -352,9 +354,10 @@ function startNewGame() {
         for (i = 0; i < size; ++i) {
             savedArr[i] = []
             for (j = 0; j < size; ++j) {
-                savedArr[i][j] = document.getElementById(i + " " + j).innerText;
+                savedArr[i][j] = document.getElementById(i + " " + j).style.backgroundImage;
             }
         }
+        presize = size;
         console.log(savedArr);
         localStorage.setItem('savedGameArr', savedArr);
         localStorage.setItem('savedGameTimeMin', minutes);
@@ -397,9 +400,15 @@ function cellClick(event) {
         }
         //инкрементируем кол-во ходов
         stepsCounter++;
-        document.getElementById(ei + " " + ej).innerHTML = el.innerHTML;
+        var cell1 = document.getElementById(i + " " + j);
+        var cellEmpty = document.getElementById(ei + " " + ej);
+        var cellBuffer = document.getElementById(ei + " " + ej).style.backgroundImage;
+        cellEmpty.innerHTML = el.innerHTML;
+        cellEmpty.style.backgroundImage = cell1.style.backgroundImage;
+        cell1.style.backgroundImage = cellBuffer;
         console.log(document.getElementById(ei + " " + ej).innerHTML);
         el.innerHTML = "";
+        console.log(cell1 + "this is");
         ei = i;
         ej = j;
         var q = true;
@@ -507,7 +516,35 @@ function newGame() {
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
-            cell.innerHTML = arr[i][j];
+            //cell.innerHTML = arr[i][j];
+            //console.log("size "+ size);
+            if (size == 3) {
+                //console.log("in it");
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/peppa/peppa${arr[i][j]}.png")`;
+                }
+            }else if (size == 4){
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/Belarus/belarus${arr[i][j]}.png")`;
+                }
+            }else if (size == 5){
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/pepe/image (${arr[i][j]}).jpg")`;
+                }
+            }else if (size == 6){
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/night/image (${arr[i][j]}).jpg")`;
+                }
+            }else if (size == 7){
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/evening/image (${arr[i][j]}).jpg")`;
+                }
+            }
+            else if (size == 8){
+                if (arr[i][j] !== '') {
+                    cell.style.backgroundImage = `url("assets/color/image (${arr[i][j]}).jpg")`;
+                }
+            }
             row.appendChild(cell);
         }
         tbody.appendChild(row);
