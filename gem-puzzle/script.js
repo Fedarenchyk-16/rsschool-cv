@@ -1,5 +1,7 @@
-var arr = [], box, ei, ej;
+var arr = [], box, ei, ej, arr2 = [];
 var savedArr = [];
+var savedArr2 = [];
+var completed = false;
 
 var size = 4;
 var presize = 4;
@@ -44,13 +46,13 @@ function menu() {
     gameFieldSize.classList.add('fieldSize');
     menu.appendChild(gameFieldSize);
     gameFieldSize.innerHTML = "<select class='fieldSizeSelect' id='fieldSizeSelect'> \n" +
-                                "<option value=\"3\">3х3</option> \n" +
-                              "<option value=\"4\" selected>4х4</option>\n" +
-                              "<option value=\"5\">5х5</option>"+
-                              "<option value=\"6\">6х6</option> \n" +
-                              "<option value=\"7\">7х7</option> \n" +
-                              "<option value=\"8\">8х8</option> \n" +
-                                 "</select>";
+        "<option value=\"3\">3х3</option> \n" +
+        "<option value=\"4\" selected>4х4</option>\n" +
+        "<option value=\"5\">5х5</option>" +
+        "<option value=\"6\">6х6</option> \n" +
+        "<option value=\"7\">7х7</option> \n" +
+        "<option value=\"8\">8х8</option> \n" +
+        "</select>";
 
     document.addEventListener('click', ev => {
         console.log(ev.target);
@@ -125,12 +127,12 @@ function showLeaders() {
     leaderContainer.appendChild(leaderTitle);
 
     for (let i = 1; i < 11; i++) {
-        var personTime = localStorage.getItem('player' + i +'Time');
+        var personTime = localStorage.getItem('player' + i + 'Time');
         var personSteps = localStorage.getItem('player' + i + 'Steps');
 
         var person = document.createElement("p");
         person.id = 'player' + i;
-        person.innerHTML = `Player${i}  --- Steps: ${personSteps}  -----  Time: ${personTime}`;
+        person.innerHTML = `Player${i}  --- Steps: ${personSteps}  -----  Time: ${personTime} min`;
         person.classList.add('person');
         leaderContainer.appendChild(person);
     }
@@ -195,19 +197,22 @@ function continueGame() {
     muteButt.classList.add('mute');
     muteButt.innerHTML = 'MUTE';
     container.appendChild(muteButt);
-    if (turnAudioOn === false){
+    if (turnAudioOn === false) {
         document.getElementById('mute').classList.add('pushed');
-    }else{
+    } else {
         document.getElementById('mute').classList.remove('pushed');
     }
 
     document.getElementById("toMenu").onclick = function () {
         clearInterval(timing);
+        completed = false;
 
         for (i = 0; i < size; ++i) {
-            savedArr[i] = []
+            savedArr[i] = [];
+            savedArr2[i] = []
             for (j = 0; j < size; ++j) {
                 savedArr[i][j] = document.getElementById(i + " " + j).style.backgroundImage;
+                savedArr2[i][j] = document.getElementById(i + " " + j).innerText;
             }
         }
         presize = size;
@@ -224,22 +229,23 @@ function continueGame() {
     }
 
     document.getElementById("mute").onclick = function () {
-        if (turnAudioOn === true){
+        if (turnAudioOn === true) {
             turnAudioOn = false;
             document.getElementById('mute').classList.add('pushed');
-        }else{
+        } else {
             turnAudioOn = true;
             document.getElementById('mute').classList.remove('pushed');
         }
     }
 
     document.getElementById("reset").onclick = function () {
+        completed = false;
         clearInterval(timing);
         newGame();
     }
 }
 
-function continuefirstClick(){
+function continuefirstClick() {
     stepsCounter = localStorage.getItem('savedGameSteps');
     minutes = localStorage.getItem('savedGameTimeMin');
     seconds = localStorage.getItem('savedGameTimeSec');
@@ -249,25 +255,51 @@ function continuefirstClick(){
     document.getElementById('steps').innerHTML = 'Steps: ' + stepsCounter;
 
     string = localStorage.getItem('savedGameArr');
+    string2 = localStorage.getItem('savedGameArr2');
     let savedArr = string.split(',');
-    //console.log(savedArr);
+    let savedArr2 = string2.split(',');
+    console.log(savedArr);
+    console.log(savedArr2);
 
     let a = 0;
     let b = 0;
     arr[a] = [];
+
     for (let i = 0; i < savedArr.length; i++) {
-        console.log(savedArr[i]);
+        //console.log(savedArr[i]);
         arr[a][b] = savedArr[i];
 
-        if (savedArr[i] === ''){
+        if (savedArr[i] === '') {
             console.log('find');
             ei = a;
             ej = b;
         }
-        if (b === presize-1) {
+        if (b === presize - 1) {
             b = 0;
             a++;
             arr[a] = [];
+        } else {
+            b++;
+        }
+
+    }
+
+    a = 0;
+    b = 0;
+    arr2[a] = [];
+    for (let i = 0; i < savedArr2.length; i++) {
+        //console.log(savedArr[i]);
+        arr2[a][b] = savedArr2[i];
+
+        if (savedArr2[i] === '') {
+            console.log('find');
+            ei = a;
+            ej = b;
+        }
+        if (b === presize - 1) {
+            b = 0;
+            a++;
+            arr2[a] = [];
         } else {
             b++;
         }
@@ -285,6 +317,7 @@ function continuefirstClick(){
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
+            cell.innerText = arr2[i][j];
             cell.style.backgroundImage = arr[i][j];
             row.appendChild(cell);
         }
@@ -342,25 +375,28 @@ function startNewGame() {
     muteButt.classList.add('mute');
     muteButt.innerHTML = 'MUTE';
     container.appendChild(muteButt);
-    if (turnAudioOn === false){
+    if (turnAudioOn === false) {
         document.getElementById('mute').classList.add('pushed');
-    }else{
+    } else {
         document.getElementById('mute').classList.remove('pushed');
     }
 
     document.getElementById("toMenu").onclick = function () {
         clearInterval(timing);
+        completed = false;
 
         for (i = 0; i < size; ++i) {
-            savedArr[i] = []
+            savedArr[i] = [];
+            savedArr2[i] = [];
             for (j = 0; j < size; ++j) {
                 savedArr[i][j] = document.getElementById(i + " " + j).style.backgroundImage;
-                
+                savedArr2[i][j] = document.getElementById(i + " " + j).innerText;
             }
         }
         presize = size;
         console.log(savedArr);
         localStorage.setItem('savedGameArr', savedArr);
+        localStorage.setItem('savedGameArr2', savedArr2);
         localStorage.setItem('savedGameTimeMin', minutes);
         localStorage.setItem('savedGameTimeSec', seconds);
         localStorage.setItem('savedGameSteps', stepsCounter);
@@ -373,15 +409,16 @@ function startNewGame() {
     }
 
     document.getElementById("reset").onclick = function () {
+        completed = false;
         clearInterval(timing);
         newGame();
     }
 
     document.getElementById("mute").onclick = function () {
-        if (turnAudioOn === true){
+        if (turnAudioOn === true) {
             turnAudioOn = false;
             document.getElementById('mute').classList.add('pushed');
-        }else{
+        } else {
             turnAudioOn = true;
             document.getElementById('mute').classList.remove('pushed');
         }
@@ -389,64 +426,67 @@ function startNewGame() {
 }
 
 function cellClick(event) {
-    var event = event || window.event,
-        el = event.srcElement || event.target,
-        i = el.id.charAt(0),
-        j = el.id.charAt(2);
-    if ((i == ei && Math.abs(j - ej) == 1) || (j == ej && Math.abs(i - ei) == 1)) {
-        if (turnAudioOn === true) {
-            var audStandart = new Audio();
-            audStandart.src = 'assets/25d7ee378d6addc (online-audio-converter.com).wav';
-            audStandart.play();
-        }
-        //инкрементируем кол-во ходов
-        stepsCounter++;
-        var cell1 = document.getElementById(i + " " + j);
-        var cellEmpty = document.getElementById(ei + " " + ej);
-        var cellBuffer = document.getElementById(ei + " " + ej).style.backgroundImage;
-        cellEmpty.innerHTML = el.innerHTML;
-        cellEmpty.style.backgroundImage = cell1.style.backgroundImage;
-        cell1.style.backgroundImage = cellBuffer;
-        console.log(document.getElementById(ei + " " + ej).innerHTML);
-        el.innerHTML = "";
-        console.log(cell1 + "this is");
-        ei = i;
-        ej = j;
-        var q = true;
-        for (i = 0; i < size; ++i)
-            for (j = 0; j < size; ++j)
-                if (i + j != (size-1)*2 && document.getElementById(i + " " + j).innerHTML != i * size + j + 1) {
-                    q = false;
-                    break;
-                }
-        if (q) {
-            let wrote = false;
-            let iterator = 0;
-            for (let k = 1; k < 11; k++) {
-                if (!wrote) {
-                    let dataSteps = localStorage.getItem('player' + k + 'Steps');
-                    let dataTime = localStorage.getItem('player' + k + 'Time');
-                    if (dataSteps === 'empty' && dataTime === 'empty') {
-                        localStorage.setItem('player' + k + 'Steps', `${stepsCounter}`);
-                        localStorage.setItem('player' + k + 'Time', `${minutes}.${seconds}`);
-                        iterator = k;
-                        wrote = true;
+    if (!completed) {
+        var event = event || window.event,
+            el = event.srcElement || event.target,
+            i = el.id.charAt(0),
+            j = el.id.charAt(2);
+        if ((i == ei && Math.abs(j - ej) == 1) || (j == ej && Math.abs(i - ei) == 1)) {
+            if (turnAudioOn === true) {
+                var audStandart = new Audio();
+                audStandart.src = 'assets/25d7ee378d6addc (online-audio-converter.com).wav';
+                audStandart.play();
+            }
+            //инкрементируем кол-во ходов
+            stepsCounter++;
+            var cell1 = document.getElementById(i + " " + j);
+            var cellEmpty = document.getElementById(ei + " " + ej);
+            var cellBuffer = document.getElementById(ei + " " + ej).style.backgroundImage;
+            cellEmpty.innerHTML = el.innerHTML;
+            cellEmpty.style.backgroundImage = cell1.style.backgroundImage;
+            cell1.style.backgroundImage = cellBuffer;
+            console.log(document.getElementById(ei + " " + ej).innerHTML);
+            el.innerHTML = "";
+            console.log(cell1 + "this is");
+            ei = i;
+            ej = j;
+            var q = true;
+            for (i = 0; i < size; ++i)
+                for (j = 0; j < size; ++j)
+                    if (i + j != (size - 1) * 2 && document.getElementById(i + " " + j).innerHTML != i * size + j + 1) {
+                        q = false;
+                        break;
+                    }
+            if (q) {
+                completed = true;
+                let wrote = false;
+                let iterator = 0;
+                for (let k = 1; k < 11; k++) {
+                    if (!wrote) {
+                        let dataSteps = localStorage.getItem('player' + k + 'Steps');
+                        let dataTime = localStorage.getItem('player' + k + 'Time');
+                        if (dataSteps === 'empty' && dataTime === 'empty') {
+                            localStorage.setItem('player' + k + 'Steps', `${stepsCounter}`);
+                            localStorage.setItem('player' + k + 'Time', `${minutes}.${seconds}`);
+                            iterator = k;
+                            wrote = true;
+                        }
                     }
                 }
+                alert(`Victory! You solve puzzle in ${stepsCounter} moves and ${minutes}.${seconds} minutes. \n Your result was saved to LEADERBOARD as Player${iterator}`);
+                clearInterval(timing);
+                timing = null;
             }
-            alert(`Victory! You solve puzzle in ${stepsCounter} moves and ${minutes}.${seconds} \n Your result was saved to LEADERBOARD as Player${iterator}`);
-            clearInterval(timing);
-            timing = null;
+        } else {
+            //некуда двигать
+            let buffEl = document.getElementById(i + " " + j);
+            buffEl.classList.add('wrong');
+            setInterval(function () {
+                buffEl.classList.remove('wrong');
+            }, 1000);
         }
-    } else {
-        //некуда двигать
-        let buffEl = document.getElementById(i + " " + j);
-        buffEl.classList.add('wrong');
-        setInterval(function () {
-            buffEl.classList.remove('wrong');
-        }, 1000);
+        document.getElementById('steps').innerHTML = 'Steps: ' + stepsCounter;
     }
-    document.getElementById('steps').innerHTML = 'Steps: ' + stepsCounter;
 }
 
 let minutes = 0;
@@ -485,24 +525,24 @@ function newGame() {
     for (i = 0; i < size; ++i) {
         arr[i] = []
         for (j = 0; j < size; ++j) {
-            if (i + j != (size-1)*2)
+            if (i + j != (size - 1) * 2)
                 arr[i][j] = i * size + j + 1;
             else
                 arr[i][j] = "";
         }
     }
-    ei = size-1;
-    ej = size-1;
+    ei = size - 1;
+    ej = size - 1;
     for (i = 0; i < 1600; ++i)
         switch (Math.round(size * Math.random())) {
             case 0:
                 if (ei != 0) swap(arr, ei, ej, --ei, ej);
                 break; // up
             case 1:
-                if (ej != size-1) swap(arr, ei, ej, ei, ++ej);
+                if (ej != size - 1) swap(arr, ei, ej, ei, ++ej);
                 break; // right
             case 2:
-                if (ei != size-1) swap(arr, ei, ej, ++ei, ej);
+                if (ei != size - 1) swap(arr, ei, ej, ++ei, ej);
                 break; // down
             case 3:
                 if (ej != 0) swap(arr, ei, ej, ei, --ej); // left
@@ -522,24 +562,23 @@ function newGame() {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/3x3/image (${arr[i][j]}).jpg")`;
                 }
-            }else if (size == 4){
+            } else if (size == 4) {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/4x4/image (${arr[i][j]}).jpg")`;
                 }
-            }else if (size == 5){
+            } else if (size == 5) {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/5x5/image (${arr[i][j]}).jpg")`;
                 }
-            }else if (size == 6){
+            } else if (size == 6) {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/6x6/image (${arr[i][j]}).jpg")`;
                 }
-            }else if (size == 7){
+            } else if (size == 7) {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/7x7/image (${arr[i][j]}).jpg")`;
                 }
-            }
-            else if (size == 8){
+            } else if (size == 8) {
                 if (arr[i][j] !== '') {
                     cell.style.backgroundImage = `url("assets/8x8/image (${arr[i][j]}).jpg")`;
                 }
