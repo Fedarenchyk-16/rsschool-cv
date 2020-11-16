@@ -149,18 +149,17 @@ table{
 }
 
 td {
-    text-align:center;
+    text-align: left;
+    vertical-align: top;
     font-family:Times New Roman;
-    color: black;
+    color: white;
     background-color: cornsilk;
-    vertical-align: middle;
 }
 #box td {
     border: solid 3px yellowgreen;
-    text-align: center;
-    font-size: 40px;
+    font-size: 20px;
     font-family: Times New Roman;
-    color: black;
+    color: white;
     width: 55px;
     height: 55px;
 }

@@ -355,6 +355,7 @@ function startNewGame() {
             savedArr[i] = []
             for (j = 0; j < size; ++j) {
                 savedArr[i][j] = document.getElementById(i + " " + j).style.backgroundImage;
+                
             }
         }
         presize = size;
@@ -516,33 +517,31 @@ function newGame() {
             var cell = document.createElement("td");
             cell.id = i + " " + j;
             cell.onclick = cellClick;
-            //cell.innerHTML = arr[i][j];
-            //console.log("size "+ size);
+            cell.innerHTML = arr[i][j];
             if (size == 3) {
-                //console.log("in it");
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/peppa/peppa${arr[i][j]}.png")`;
+                    cell.style.backgroundImage = `url("assets/3x3/image (${arr[i][j]}).jpg")`;
                 }
             }else if (size == 4){
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/Belarus/belarus${arr[i][j]}.png")`;
+                    cell.style.backgroundImage = `url("assets/4x4/image (${arr[i][j]}).jpg")`;
                 }
             }else if (size == 5){
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/pepe/image (${arr[i][j]}).jpg")`;
+                    cell.style.backgroundImage = `url("assets/5x5/image (${arr[i][j]}).jpg")`;
                 }
             }else if (size == 6){
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/night/image (${arr[i][j]}).jpg")`;
+                    cell.style.backgroundImage = `url("assets/6x6/image (${arr[i][j]}).jpg")`;
                 }
             }else if (size == 7){
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/evening/image (${arr[i][j]}).jpg")`;
+                    cell.style.backgroundImage = `url("assets/7x7/image (${arr[i][j]}).jpg")`;
                 }
             }
             else if (size == 8){
                 if (arr[i][j] !== '') {
-                    cell.style.backgroundImage = `url("assets/color/image (${arr[i][j]}).jpg")`;
+                    cell.style.backgroundImage = `url("assets/8x8/image (${arr[i][j]}).jpg")`;
                 }
             }
             row.appendChild(cell);
